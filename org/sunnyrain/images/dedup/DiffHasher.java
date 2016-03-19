@@ -10,15 +10,12 @@ import java.util.BitSet;
  */
 public class DiffHasher implements ImageHasher {
 
+    private ImageScaler imageScaler;
     public static final int OUTPUT_WIDTH = 9;
     public static final int OUTPUT_HEIGHT = 8;
 
-    private final int outputWidth;
-    private final int outputHeight;
-
     public DiffHasher(int width, int height) {
-        outputHeight = height;
-        outputWidth = width;
+        imageScaler = new ImageScaler(width, height);
     }
 
     public DiffHasher() {
@@ -27,10 +24,12 @@ public class DiffHasher implements ImageHasher {
 
     @Override
     public String hash(Image image) {
-        BufferedImage downsizedImage = ImageUtil.downsize(image, outputWidth, outputHeight);
+        BufferedImage downsizedImage = imageScaler.downsize(image);
 
         // go through the pixels and compare with it's left pixel value
         // if the left pixel's value is brighter, ie. p[x] < p[x+1]
+        int outputWidth = downsizedImage.getWidth();
+        int outputHeight = downsizedImage.getHeight();
         BitSet bits = new BitSet(outputHeight * (outputWidth-1));
         for (int row = 0; row < outputHeight; row++) {
             for (int col = 0; col < outputWidth-1; col++) {

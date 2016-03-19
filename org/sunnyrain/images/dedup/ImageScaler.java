@@ -1,19 +1,31 @@
 package org.sunnyrain.images.dedup;
 
-import java.awt.Image;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
- * Utility to for shared functionalities of images.
+ * Class to scale the image down
  */
-public class ImageUtil {
+public class ImageScaler {
 
-    private ImageUtil() {
-        // make this a utility class.
+    public static final int OUTPUT_WIDTH = 8;
+    public static final int OUTPUT_HEIGHT = 8;
+
+    private final int outputWidth;
+    private final int outputHeight;
+
+    public ImageScaler(int width, int height) {
+        outputHeight = height;
+        outputWidth = width;
     }
 
-    public static BufferedImage downsize(Image inputImage, int outputWidth, int outputHeight) {
+    public ImageScaler() {
+        this(OUTPUT_WIDTH, OUTPUT_HEIGHT);
+    }
+
+
+    public BufferedImage downsize(Image inputImage) {
         // first, downsize the input image and convert it to gray scale
         BufferedImage downsizedImage = new BufferedImage(outputWidth, outputHeight, BufferedImage.TYPE_BYTE_GRAY);
         Graphics graphics = downsizedImage.createGraphics();

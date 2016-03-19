@@ -28,8 +28,14 @@ public class ImageFun {
             File imageFile = dirPath.resolve(filename).toFile();
             imageFiles.put(filename, ImageIO.read(imageFile));
         }
+        System.out.println("Testing Diff Hashing...");
         testDiff(new DiffHasher());
+
+        System.out.println("Testing Average Hashing...");
         testDiff(new AverageHasher());
+
+        System.out.println("Testing DCT Hashing...");
+        testDiff(new DctHasher());
     }
 
     private static void testDiff(ImageHasher imageHasher) {

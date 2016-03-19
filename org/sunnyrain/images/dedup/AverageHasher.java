@@ -14,12 +14,9 @@ public class AverageHasher implements ImageHasher {
     public static final int OUTPUT_WIDTH =8;
     public static final int OUTPUT_HEIGHT =8;
 
-    private final int outputWidth;
-    private final int outputHeight;
-
+    private ImageScaler imageScaler;
     public AverageHasher(int width, int height) {
-        outputHeight = height;
-        outputWidth = width;
+        imageScaler = new ImageScaler(width, height);
     }
 
     public AverageHasher() {
@@ -29,7 +26,11 @@ public class AverageHasher implements ImageHasher {
     @Override
     public String hash(Image image) {
 
-        BufferedImage downsizedImage = ImageUtil.downsize(image, outputWidth, outputHeight);
+        BufferedImage downsizedImage = imageScaler.downsize(image);
+
+        int outputHeight = downsizedImage.getHeight();
+        int outputWidth = downsizedImage.getWidth();
+
         // calculate the mean / avg gray scale
         int sum = 0;
         for (int x = 0; x < outputHeight; x++) {
